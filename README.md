@@ -40,7 +40,10 @@ server {
   location / {
     locationproxy_pass http://public;
    } 
-                                   
+location /plugins {
+   proxy_pass http://frontend;
+}
+        
   access_log  /var/log/nginx/nginxlog/aspace.access.log  main;
                                        
 }
@@ -67,6 +70,14 @@ ln -s /usr/share/archivesspace-1.0.7/ /usr/share/archivesspace
 sudo mkdir -p /var/archivesspace/data
 rm -r /usr/share/archivesspace/data
 sudo ln -s /var/archivesspace/data /usr/share/archivesspace/data
+
+vi config/config.rb
+AppConfig[:frontend_url] = "http://localhost:8080/staff"
+AppConfig[:db_url] =
+"jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
+
+AppConfig[:plugins] = ['local', 'aspace_feedack', 'lcnaf', "aat"]
+
 
 
 #### Start Aspace
