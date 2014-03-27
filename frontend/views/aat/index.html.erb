@@ -1,0 +1,87 @@
+<%= setup_context :title => "AAT Search" %>
+
+<div class="row-fluid">
+  <div class="span12">
+    <div class="record-pane">
+      <div class="row-fluid">
+        <div class="span8">
+          <h2><%= I18n.t("plugins.aat.label") %></h2>
+
+          <%= render :partial => "shared/flash_messages" %>
+
+          <%= form_tag({:controller => :aat, :action => :search}, {:id => "aat_search", :class => "form-search", :method => "GET"}) do |form| %>
+            <input type="text" name="query" id="search-query" class="input-large">
+            <button type="submit" class="btn btn-primary">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= I18n.t("plugins.aat.actions.search") %>
+            </button>
+          <% end %>
+          <div id="results"></div>
+        </div>
+          
+        <div class="span4">
+          <%= form_tag({:controller => :aat, :action => :import}, {:id => "aat_import"}) do |form| %>
+          <div class="selected-container" data-spy="affix">
+            <div class="alert alert-info"><%= I18n.t("plugins.aat.messages.none_selected") %></div>
+            <div id="selected"></div>
+            <button id="import-selected" class="btn btn-primary" disabled="disabled">
+              <%= image_tag "archivesspace/btn-busy.gif", :class=>"btn-busy-icon" %>
+              <%= I18n.t("plugins.aat.actions.import") %>
+            </button>
+          </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+</div>
+
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/aat.js" %>"></script>
+<script src="<%= "#{AppConfig[:frontend_prefix]}assets/highlight.js/highlight.pack.js" %>"></script>
+<link href="<%= "#{AppConfig[:frontend_prefix]}assets/styles/aat.css" %>" media="all" rel="stylesheet" type="text/css">
+<link href="<%= "#{AppConfig[:frontend_prefix]}assets/highlight.js/styles/tomorrow.css" %>" media="all" rel="stylesheet" type="text/css">
+
+<div id="template_aat_result"><!--
+  <div class="aat-result">
+    <div class="row-fluid">
+      <div class="span2">
+          <span class="pull-left alert alert-success hide"><%= I18n.t("plugins.aat.messages.selected") %></span>
+          <button class="btn hide" data-term="${record.label}" data-uri="${record.uri}"><%= I18n.t("plugins.aat.actions.select") %></button>
+      </div>
+      <div><h4><a href="${record.uri}" target="_blank">${record.label}</a></h4></div>
+    </div>
+  </div>
+--></div>
+
+<div id="template_aat_result_summary"><!--
+  <div class="row-fluid">
+    <div class="pull-right text-info">
+    </div>
+    <hr/>
+  </div>
+--></div>
+
+<div id="template_aat_pagination"><!--
+  <div class="row-fluid">
+    <hr/>
+  </div>
+--></div>
+
+<div id="template_aat_selected"><!--
+  <div data-uri="${uri}" data-term="${term}" class="aat-selected">
+    <input type="hidden" name="terms[${uri}]" value="${term}"/>
+    ${term}
+    <button class="btn btn-mini remove-selected pull-right"><span class="icon icon-trash"></span></button>
+  </div>
+--></div>
+
+<div id="template_aat_import_error_title"><!--
+  <%= I18n.t("plugins.aat.messages.import_error") %>
+--></div>
+
+<div id="template_aat_import_success_title"><!--
+  <%= I18n.t("plugins.aat.messages.import_success") %>
+--></div>
+
+<div id="template_aat_import_success_message"><!--
+  <div class="alert alert-success"><%= I18n.t("plugins.aat.messages.import_success_message") %></div>
+--></div>
