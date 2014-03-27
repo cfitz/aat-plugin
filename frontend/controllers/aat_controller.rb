@@ -1,4 +1,5 @@
-require 'srusearcher'
+require 'sparql_searcher'
+require 'sparql_query'
 require 'securerandom'
 
 class AatController < ApplicationController
@@ -6,8 +7,6 @@ class AatController < ApplicationController
   set_access_control "update_agent_record" => [:search, :index, :import]
 
   def index
-    @page = 1
-    @records_per_page = 10
   end
 
 

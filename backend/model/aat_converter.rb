@@ -32,11 +32,12 @@ class AatConverter < Converter
       "subject_authority_id" => "subject.authority_id",
       'subject_term_type' => 'subject.term_type', 
       :subject => {
-            :on_create => Proc.new {|data, obj|
-              File.open('/tmp/dump.txt', 'a') { |f| f << data.inspect } 
-              obj.terms = [{:term => data['term'], :term_type => data['term_type'], 
-                :vocabulary => '/vocabularies/1'}]
-              obj.vocabulary = '/vocabularies/1'
+            :on_create => Proc.new { |data, obj|
+               
+                obj.terms = [{:term => data['term'], :term_type => data['term_type'], 
+                              :vocabulary => '/vocabularies/1'}]
+               
+                obj.vocabulary = '/vocabularies/1'
             }
       }
     }
