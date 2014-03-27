@@ -60,7 +60,10 @@ server {
   location / {
     locationproxy_pass http://public;
    } 
-                                   
+location /plugins {
+   proxy_pass http://frontend;
+}
+        
   access_log  /var/log/nginx/nginxlog/aspace.access.log  main;
                                        
 }
