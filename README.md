@@ -27,7 +27,18 @@ mysql>  create database archivesspace default character set utf8;
 mysql> grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';
 mysql> exit;
 
+
+
 vi /etc/nginx/conf.d/aspace.me.conf 
+
+AppConfig[:frontend_url] = "http://localhost:8080/staff"
+AppConfig[:db_url] =
+"jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
+
+AppConfig[:plugins] = ['local', 'aspace_feedack', 'lcnaf', "aat"]
+
+
+
 
 upstream frontend {
      server localhost:8080;
@@ -54,7 +65,7 @@ server {
                                        
 }
 
-
+vi /usr/share/archivespace/config/config.rb
 
 
 
