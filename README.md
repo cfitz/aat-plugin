@@ -7,8 +7,6 @@ sudo yum update
 #### Setup Nginx for Reverse Proxy
 vi /etc/yum.repos.d/nginx.repo
 
-sudo yum install nginx
-
 ```
 [nginx]
 name=nginx repo
@@ -16,6 +14,7 @@ baseurl=http://nginx.org/packages/rhel/6/$basearch/
 gpgcheck=0
 enabled=1
 ```
+sudo yum install nginx
 
 vi /etc/nginx/conf.d/aspace.me.conf 
 
@@ -51,37 +50,50 @@ location /plugins {
 
 #### Install and setup mysql
 
-sudo yum install mysql-server mysql 
-mysqladmin -u root password aspace123
-sudo service mysqld start
+$ sudo yum install mysql-server mysql 
 
+$ mysqladmin -u root password aspace123
+
+$ sudo service mysqld start
+
+```
 mysql -u root -p
 mysql>  create database archivesspace default character set utf8;
 mysql> grant all on archivesspace.* to 'as'@'localhost' identified by 'as123';
 mysql> exit;
+```
 
 #### Install Aspace
 
-cd ~
-wget "https://github.com/archivesspace/archivesspace/releases/download/v1.0.7.1/archivesspace-v1.0.7.1.zip"
-unzip archivesspace-v1.0.7.1.zip 
-mv archivesspace /usr/share/archivesspace-1.0.7/
-ln -s /usr/share/archivesspace-1.0.7/ /usr/share/archivesspace
-sudo mkdir -p /var/archivesspace/data
-rm -r /usr/share/archivesspace/data
-sudo ln -s /var/archivesspace/data /usr/share/archivesspace/data
+$ cd ~
 
-vi config/config.rb
+$ wget "https://github.com/archivesspace/archivesspace/releases/download/v1.0.7.1/archivesspace-v1.0.7.1.zip"
+
+$ unzip archivesspace-v1.0.7.1.zip 
+
+$ mv archivesspace /usr/share/archivesspace-1.0.7/
+
+$ ln -s /usr/share/archivesspace-1.0.7/ /usr/share/archivesspace
+
+$ sudo mkdir -p /var/archivesspace/data
+
+$ rm -r /usr/share/archivesspace/data
+
+$ sudo ln -s /var/archivesspace/data /usr/share/archivesspace/data
+
+$ vi config/config.rb
+
+```
 AppConfig[:frontend_url] = "http://localhost:8080/staff"
 AppConfig[:db_url] =
 "jdbc:mysql://localhost:3306/archivesspace?user=as&password=as123&useUnicode=true&characterEncoding=UTF-8"
 
 AppConfig[:plugins] = ['local', 'aspace_feedack', 'lcnaf', "aat"]
-
+```
 
 
 #### Start Aspace
 
-sudo /usr/share/archivesspace/archivesspace.sh start
+$ sudo /usr/share/archivesspace/archivesspace.sh start
 
 
